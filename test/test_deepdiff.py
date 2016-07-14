@@ -233,6 +233,20 @@ class DeepDiffTestCase(unittest.TestCase):
         ddiff = DeepDiff(t1, t2, ignore_order=True)
         self.assertEqual(ddiff, {})
 
+    def test_dictionary_with_custom_objects_as_keys(self):
+        custom1a = CustomClass(13, 37)
+        custom2a = CustomClass(13, 37)
+        t1 = {custom1a: 42}
+        t2 = {custom2a: 42}
+        self.assertEqual(DeepDiff(t1, t2), {})
+
+    def test_dictionary_with_custom_objects_as_values(self):
+        custom1a = CustomClass(13, 37)
+        custom2a = CustomClass(13, 37)
+        t1 = {42: custom1a}
+        t2 = {42: custom2a}
+        self.assertEqual(DeepDiff(t1, t2), {})
+
     def test_comprehensive_ignore_order(self):
 
         t1 = {
