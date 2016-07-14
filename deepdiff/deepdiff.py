@@ -322,8 +322,8 @@ class DeepDiff(RemapDict):
             item_removed_key = "dictionary_item_removed"
             parent_text = "%s[%s]"
 
-        t1_keys = set(t1.keys())
-        t2_keys = set(t2.keys())
+        t1_keys = DeepSet(t1.keys())
+        t2_keys = DeepSet(t2.keys())
 
         t_keys_intersect = t2_keys.intersection(t1_keys)
 
