@@ -689,5 +689,25 @@ class DeepDiffTestCase(unittest.TestCase):
         result = {}
         self.assertEqual(ddiff, result)
 
+    def test_custom_object_containing_set(self):
+        groups1 = {'jira-developers'}
+        users1 = {'victor.hahn'}
+        groups2 = {'jira-developers'}
+        users2 = set()
+        t1 = CustomClass(groups1, users1)
+        t2 = CustomClass(groups2, users2)
+        ddiff = DeepDiff(t1, t2)
 
+        self.assertEqual(ddiff, {'set_item_removed': {"root.b['victor.hahn']"}})
+
+    def test_set_deep_compare(self):
+        member1 = CustomClass(1337, 4711)
+        member2 = CustomClass(31337, 4711)
+        t1 = {'lol', 'rofl', member1}
+        t2 = {'lol', 'rofl', member2}
+        print(DeepDiff(member1, member2))
+        print(DeepDiff(t1, t2))
+        self.assertEqual(DeepDiff(t1,t2),
+                         {'values_changed': {'root[(1337, 4711)].a': {'new_value': 31337, 'old_value': 1337}}})
+        pass
 
