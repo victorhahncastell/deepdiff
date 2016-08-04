@@ -469,6 +469,21 @@ class DeepDiffTestCase(unittest.TestCase):
         result = {}
         self.assertEqual(ddiff, result)
 
+    def test_deep_custom_object_structure(self):
+        member1 = CustomClass('a_value', { 'first_key': CustomClass( {CustomClass(13, 37), CustomClass(47, 11)},
+                                                                     {CustomClass('bla', 'blubb')})
+                                         }
+                             )
+        member2 = CustomClass('a_value', {'first_key': CustomClass({CustomClass(13, 37), CustomClass(47, 11)},
+                                                                   {CustomClass('bla', 'blubb')})
+                                          }
+                              )
+        t1 = {1: member1}
+        t2 = {1: member2}
+        ddiff = DeepDiff(t1, t2)
+        result = {}
+        self.assertEqual(ddiff, result)
+
     def test_loop(self):
         class LoopTest(object):
 
